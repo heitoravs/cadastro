@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
-
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
