@@ -1,12 +1,16 @@
-const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
+import express from 'express';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import path from 'path';
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static('public'));
+
+
+app.use(express.static(path.join(process.cwd(), 'pages/public'))); 
+
 app.use(
   session({
     secret: 'secret-key',
@@ -16,7 +20,6 @@ app.use(
 );
 
 let products = []; 
-
 
 app.post('/login', (req, res) => {
   const { username } = req.body;
@@ -29,7 +32,6 @@ app.post('/login', (req, res) => {
   }
 });
 
-
 app.post('/add-product', (req, res) => {
   if (req.session.username) {
     products.push(req.body);
@@ -39,7 +41,6 @@ app.post('/add-product', (req, res) => {
   }
 });
 
-
 app.get('/products', (req, res) => {
   if (req.session.username) {
     res.json({ products, lastAccess: req.cookies.lastAccess });
@@ -48,12 +49,10 @@ app.get('/products', (req, res) => {
   }
 });
 
-
 app.get('/logout', (req, res) => {
   req.session.destroy();
   res.redirect('/login.html');
 });
-
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');
