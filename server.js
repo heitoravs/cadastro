@@ -2,7 +2,7 @@ import express from 'express';
 import session from 'express-session';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import path from 'path';
+app.use(express.static(path.join(process.cwd(), 'pages/public')));
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
